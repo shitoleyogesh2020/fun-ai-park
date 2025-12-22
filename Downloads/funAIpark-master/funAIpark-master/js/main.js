@@ -2378,7 +2378,7 @@ class FunAIApp {
     processPayment(method, amount, testType = null) {
         // Razorpay payment integration
         const options = {
-            key: 'rzp_test_Rt9ofen3nW1XjU', // Test key
+            key: process.env.RAZORPAY_KEY_ID || 'rzp_test_Rt9ofen3nW1XjU', // Use env variable
             amount: amount * 100, // Amount in paise
             currency: 'INR',
             name: 'FunAI Park',
