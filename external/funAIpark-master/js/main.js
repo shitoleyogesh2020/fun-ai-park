@@ -35,40 +35,49 @@ class FunAIApp {
         
         try {
             const data = JSON.parse(premiumData);
-            const currentDevice = this.getDeviceFingerprint();
-            
-            // Allow up to 2 devices per premium account
-            if (data.userId === this.userId && data.active === true) {
-                if (!data.devices) data.devices = [];
-                
-                // Check if current device is already registered
-                if (data.devices.includes(currentDevice)) {
-                    return true;
-                }
-                
-                // Allow new device if less than 2 devices
-                if (data.devices.length < 2) {
-                    data.devices.push(currentDevice);
-                    localStorage.setItem('premiumAccess', JSON.stringify(data));
-                    return true;
-                }
-            }
-            return false;
+            // Check if user has all tests (full access)
+            const allTests = ['age', 'character', 'toxic', 'future', 'internet', 'redflags'];
+            return data.tests && allTests.every(test => data.tests.includes(test));
         } catch {
             return false;
         }
     }
     
-    setFullAccess() {
+    setFullAccess(testType = null) {
         const currentDevice = this.getDeviceFingerprint();
-        const premiumData = {
+        let premiumData = {
             userId: this.userId,
             active: true,
             timestamp: Date.now(),
-            devices: [currentDevice]
+            devices: [currentDevice],
+            tests: testType ? [testType] : ['age', 'character', 'toxic', 'future', 'internet', 'redflags']
         };
+        
+        // If user already has some premium tests, merge them
+        const existing = localStorage.getItem('premiumAccess');
+        if (existing && testType) {
+            try {
+                const existingData = JSON.parse(existing);
+                if (existingData.tests && !existingData.tests.includes(testType)) {
+                    premiumData.tests = [...existingData.tests, testType];
+                }
+            } catch {}
+        }
+        
         localStorage.setItem('premiumAccess', JSON.stringify(premiumData));
-        this.hasFullAccess = true;
+        this.hasFullAccess = !testType; // True only for all-access pass
+    }
+    
+    hasTestAccess(testType) {
+        const premiumData = localStorage.getItem('premiumAccess');
+        if (!premiumData) return false;
+        
+        try {
+            const data = JSON.parse(premiumData);
+            return data.tests && data.tests.includes(testType);
+        } catch {
+            return false;
+        }
     }
     
     getDeviceFingerprint() {
@@ -274,17 +283,28 @@ class FunAIApp {
         };
         
         const config = testConfigs[testType];
-        const premiumBadge = this.hasFullAccess ? '<div class="premium-user-badge">👑 PREMIUM USER</div>' : '';
+        const premiumBadge = (this.hasFullAccess || this.hasTestAccess(testType)) ? '<div class="premium-user-badge">👑 PREMIUM USER</div>' : '';
         
         return `
             <div class="test-header ${config.theme}">
                 ${premiumBadge}
-                <div class="test-icon">${config.icon}</div>
-                <h2>${config.title}</h2>
-                <p>${config.subtitle}</p>
+                <div class="test-header-content">
+                    <div class="test-icon">${config.icon}</div>
+                    <div class="test-title-group">
+                        <h2>${config.title}</h2>
+                        <p>${config.subtitle}</p>
+                    </div>
+                </div>
+                <div class="test-progress-compact" id="headerProgress" style="display: none;">
+                    <div class="progress-text">Question <span id="currentQ">1</span> of <span id="totalQ">5</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="headerProgressFill" style="width: 20%"></div>
+                    </div>
+                </div>
             </div>
             <div class="test-content ${config.theme}">
                 ${config.content}
+                <div class="progress-hint">Tap to continue →</div>
             </div>
         `;
     }
@@ -406,7 +426,7 @@ class FunAIApp {
                             You're the main character everyone roots for! Natural leader with a heart of gold.
                         </p>
                         
-                        <div class="upgrade-prompt" ${this.hasFullAccess ? 'style="display: none;"' : ''}>
+                        <div class="upgrade-prompt" ${(this.hasFullAccess || this.hasTestAccess('character')) ? 'style="display: none;"' : ''}>
                             <h4>🔓 Get Your Complete Character Package for ₹49</h4>
                             <ul>
                                 <li>Detailed personality breakdown</li>
@@ -447,7 +467,7 @@ class FunAIApp {
                         <div class="toxic-percentage" id="toxicPercentage">45%</div>
                     </div>
                     
-                    <div class="upgrade-prompt" ${this.hasFullAccess ? 'style="display: none;"' : ''}>
+                    <div class="upgrade-prompt" ${(this.hasFullAccess || this.hasTestAccess('toxic')) ? 'style="display: none;"' : ''}>
                         <h4>🔓 Get Roasted Properly for ₹79</h4>
                         <ul>
                             <li>Detailed toxic trait breakdown</li>
@@ -483,7 +503,7 @@ class FunAIApp {
                             Based on your habits, you're on track to become a successful professional with great work-life balance!
                         </p>
                         
-                        <div class="upgrade-prompt" ${this.hasFullAccess ? 'style="display: none;"' : ''}>
+                        <div class="upgrade-prompt" ${(this.hasFullAccess || this.hasTestAccess('future')) ? 'style="display: none;"' : ''}>
                             <h4>🔓 Get Complete 2026 Report for ₹99</h4>
                             <ul>
                                 <li>Detailed year-by-year progression</li>
@@ -519,7 +539,7 @@ class FunAIApp {
                             You're authentically yourself across all platforms with a perfect balance of sharing and privacy!
                         </p>
                         
-                        <div class="upgrade-prompt" ${this.hasFullAccess ? 'style="display: none;"' : ''}>
+                        <div class="upgrade-prompt" ${(this.hasFullAccess || this.hasTestAccess('internet')) ? 'style="display: none;"' : ''}>
                             <h4>🔓 Get Premium Share Card for ₹49</h4>
                             <ul>
                                 <li>Detailed platform analysis</li>
@@ -675,7 +695,7 @@ class FunAIApp {
             ageResult.innerHTML = resultContent;
             
             // If user has premium access, unlock content immediately
-            if (this.hasFullAccess) {
+            if (this.hasFullAccess || this.hasTestAccess('age')) {
                 // Remove overlay completely for premium users
                 setTimeout(() => {
                     const overlay = ageResult.querySelector('#unlockOverlay');
@@ -850,7 +870,7 @@ class FunAIApp {
                     </div>
                 </div>
                 
-                <div class="upgrade-prompt" ${this.hasFullAccess ? 'style="display: none;"' : ''}>
+                <div class="upgrade-prompt" ${(this.hasFullAccess || this.hasTestAccess('redflags')) ? 'style="display: none;"' : ''}>
                     <h4>🔓 Get Complete Analysis for ₹99</h4>
                     <ul>
                         <li>Detailed category breakdown</li>
@@ -868,7 +888,7 @@ class FunAIApp {
         document.querySelector('.mode-selection').style.display = 'none';
         
         // Auto-unlock for premium users
-        if (this.hasFullAccess) {
+        if (this.hasFullAccess || this.hasTestAccess('redflags')) {
             setTimeout(() => {
                 this.showPremiumRedFlagContent(redFlags, yellowFlags, greenFlags);
             }, 500);
@@ -1083,7 +1103,7 @@ class FunAIApp {
         this.createConfetti();
         setTimeout(() => {
             this.showCharacterResult(dominantType, counts);
-            if (this.hasFullAccess) {
+            if (this.hasFullAccess || this.hasTestAccess('character')) {
                 setTimeout(() => this.showPremiumCharacterContent(), 500);
             }
         }, 1000);
@@ -1192,7 +1212,7 @@ class FunAIApp {
         document.getElementById('toxicFill').style.width = `${percentage}%`;
         document.getElementById('toxicPercentage').textContent = `${percentage}%`;
         
-        if (this.hasFullAccess) {
+        if (this.hasFullAccess || this.hasTestAccess('toxic')) {
             setTimeout(() => this.showPremiumToxicContent(), 500);
         }
     }
@@ -1416,7 +1436,7 @@ class FunAIApp {
         
         this.createConfetti();
         
-        if (this.hasFullAccess) {
+        if (this.hasFullAccess || this.hasTestAccess('future')) {
             setTimeout(() => this.showPremiumFutureContent(), 500);
         }
     }
@@ -1588,7 +1608,7 @@ class FunAIApp {
         
         this.createConfetti();
         
-        if (this.hasFullAccess) {
+        if (this.hasFullAccess || this.hasTestAccess('internet')) {
             setTimeout(() => this.showPremiumInternetContent(), 500);
         }
     }
@@ -1723,9 +1743,15 @@ class FunAIApp {
     
     
     handleUpgrade() {
-        if (this.hasFullAccess) {
-            this.unlockPremiumContent();
+        if (this.hasFullAccess || this.hasTestAccess(this.currentTest)) {
+            this.unlockCurrentTestContent();
             return;
+        }
+        
+        // Prevent multiple payment modals
+        const existingModal = document.querySelector('[style*="position: fixed"][style*="rgba(0,0,0,0.8)"]');
+        if (existingModal) {
+            return; // Payment modal already open
         }
         
         // Show payment options for current test
@@ -1766,6 +1792,51 @@ class FunAIApp {
         `;
         
         document.body.appendChild(paymentModal);
+    }
+    
+    unlockCurrentTestContent() {
+        // Check if user is currently viewing results before unlocking
+        const isAtResults = {
+            age: document.getElementById('ageResult') && document.getElementById('ageResult').style.display !== 'none',
+            character: document.getElementById('characterResult') && document.getElementById('characterResult').style.display !== 'none',
+            toxic: document.getElementById('toxicResult') && document.getElementById('toxicResult').style.display !== 'none',
+            future: document.getElementById('futureResult') && document.getElementById('futureResult').style.display !== 'none',
+            internet: document.getElementById('internetResult') && document.getElementById('internetResult').style.display !== 'none',
+            redflags: document.getElementById('redflagsResult') && document.getElementById('redflagsResult').style.display !== 'none'
+        };
+        
+        // Only unlock if user is at results page
+        if (!isAtResults[this.currentTest]) {
+            return; // User not at results yet, don't unlock
+        }
+        
+        // Direct method to unlock current test content
+        switch(this.currentTest) {
+            case 'age':
+                this.unlockAgeTestPremiumContent();
+                break;
+            case 'character':
+                this.showPremiumCharacterContent();
+                break;
+            case 'toxic':
+                this.showPremiumToxicContent();
+                break;
+            case 'future':
+                this.showPremiumFutureContent();
+                break;
+            case 'internet':
+                this.showPremiumInternetContent();
+                break;
+            case 'redflags':
+                // For red flags, we need the stored results
+                if (this.redFlagAnswers && this.redFlagAnswers.length > 0) {
+                    const redFlags = this.redFlagAnswers.filter(a => a === 'red').length;
+                    const yellowFlags = this.redFlagAnswers.filter(a => a === 'yellow').length;
+                    const greenFlags = this.redFlagAnswers.filter(a => a === 'green').length;
+                    this.showPremiumRedFlagContent(redFlags, yellowFlags, greenFlags);
+                }
+                break;
+        }
     }
     
     unlockPremiumContent() {
@@ -2988,32 +3059,94 @@ class FunAIApp {
             image: 'https://via.placeholder.com/100x100?text=FunAI',
             handler: (response) => {
                 // Payment successful
-                console.log('Payment successful:', response);
+                console.log('🎉 Payment successful:', response);
+                console.log('📍 Current test:', this.currentTest);
+                console.log('🎯 Test type from payment:', testType);
                 
-                // Close payment modal and set premium access
-                this.closeModal();
-                this.setFullAccess();
+                // Set premium access first
+                this.setFullAccess(testType);
                 this.updateUIForPremiumUser();
                 
-                if (testType) {
-                    // Individual test unlock
-                    this.currentTest = testType;
-                    this.closeModal();
-                    // Reopen the test with premium access
+                // Close any payment modals
+                document.querySelectorAll('[style*="position: fixed"]').forEach(el => {
+                    if (el.innerHTML.includes('Pay with UPI') || el.innerHTML.includes('Choose Payment')) {
+                        console.log('🗑️ Removing payment modal');
+                        el.remove();
+                    }
+                });
+                
+                if (testType && this.currentTest === testType) {
+                    console.log('✅ User in test flow, unlocking content for:', testType);
+                    // Check current DOM state
+                    const resultElements = {
+                        age: document.getElementById('ageResult'),
+                        character: document.getElementById('characterResult'),
+                        toxic: document.getElementById('toxicResult'),
+                        future: document.getElementById('futureResult'),
+                        internet: document.getElementById('internetResult'),
+                        redflags: document.getElementById('redflagsResult')
+                    };
+                    console.log('📊 Result element exists:', !!resultElements[testType]);
+                    console.log('👁️ Result element visible:', resultElements[testType]?.style.display !== 'none');
+                    
+                    // Force unlock without checking if at results since payment was from results page
                     setTimeout(() => {
-                        this.openTest(testType);
-                        setTimeout(() => {
-                            this.unlockPremiumContent();
-                        }, 500);
+                        console.log('🔓 Executing unlock for:', testType);
+                        
+                        // Make sure result element is visible first
+                        const resultElement = resultElements[testType];
+                        if (resultElement && resultElement.style.display === 'none') {
+                            console.log('👁️ Making result element visible');
+                            resultElement.style.display = 'block';
+                        }
+                        
+                        // Hide questions section
+                        const questionElements = {
+                            age: document.getElementById('imageUpload'),
+                            character: document.getElementById('characterQuestions'),
+                            toxic: document.getElementById('toxicQuestions'),
+                            future: document.getElementById('futureQuestions'),
+                            internet: document.getElementById('internetQuestions'),
+                            redflags: document.querySelector('.mode-selection')
+                        };
+                        if (questionElements[testType]) {
+                            console.log('🙈 Hiding questions section');
+                            questionElements[testType].style.display = 'none';
+                        }
+                        
+                        switch(testType) {
+                            case 'age':
+                                this.unlockAgeTestPremiumContent();
+                                break;
+                            case 'character':
+                                this.showPremiumCharacterContent();
+                                break;
+                            case 'toxic':
+                                this.showPremiumToxicContent();
+                                break;
+                            case 'future':
+                                this.showPremiumFutureContent();
+                                break;
+                            case 'internet':
+                                this.showPremiumInternetContent();
+                                break;
+                            case 'redflags':
+                                if (this.redFlagAnswers && this.redFlagAnswers.length > 0) {
+                                    const redFlags = this.redFlagAnswers.filter(a => a === 'red').length;
+                                    const yellowFlags = this.redFlagAnswers.filter(a => a === 'yellow').length;
+                                    const greenFlags = this.redFlagAnswers.filter(a => a === 'green').length;
+                                    this.showPremiumRedFlagContent(redFlags, yellowFlags, greenFlags);
+                                }
+                                break;
+                        }
+                        console.log('✨ Unlock completed');
                     }, 100);
                 } else {
-                    // All-access pass
-                    this.setFullAccess();
-                    this.updateUIForPremiumUser();
+                    console.log('❌ Not in test flow or test mismatch');
+                    // Show success and close modal
                     this.closeModal();
-                    // Show success message
                     const successDiv = document.createElement('div');
-                    successDiv.innerHTML = '🎆 All-Access Pass activated! All premium features unlocked!';
+                    successDiv.innerHTML = testType ? `🎉 Premium ${testType} test unlocked!` : '🎆 All-Access Pass activated!';
                     successDiv.style.cssText = 'position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 1rem 2rem; border-radius: 10px; z-index: 10000; font-weight: 600; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);';
                     document.body.appendChild(successDiv);
                     setTimeout(() => successDiv.remove(), 5000);
@@ -3043,30 +3176,97 @@ class FunAIApp {
     }
     
     simulatePayment(method, amount, testType = null) {
-        // Show payment success directly for demo
-        setTimeout(() => {
-            if (testType) {
-                // Individual test unlock
-                this.currentTest = testType;
-                this.closeModal();
-                setTimeout(() => {
-                    this.openTest(testType);
-                    setTimeout(() => {
-                        this.unlockPremiumContent();
-                    }, 500);
-                }, 100);
-            } else {
-                // All-access pass
-                this.setFullAccess();
-                this.updateUIForPremiumUser();
-                this.closeModal();
-                const successDiv = document.createElement('div');
-                successDiv.innerHTML = '🎆 All-Access Pass activated! All premium features unlocked!';
-                successDiv.style.cssText = 'position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 1rem 2rem; border-radius: 10px; z-index: 10000; font-weight: 600; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);';
-                document.body.appendChild(successDiv);
-                setTimeout(() => successDiv.remove(), 5000);
+        console.log('💳 Simulating payment for:', testType);
+        console.log('📍 Current test:', this.currentTest);
+        
+        // Set premium access first
+        this.setFullAccess(testType);
+        this.updateUIForPremiumUser();
+        
+        // Close any payment modals
+        document.querySelectorAll('[style*="position: fixed"]').forEach(el => {
+            if (el.innerHTML.includes('Pay with UPI') || el.innerHTML.includes('Choose Payment')) {
+                console.log('🗑️ Removing payment modal (simulate)');
+                el.remove();
             }
-        }, 1000);
+        });
+        
+        if (testType && this.currentTest === testType) {
+            console.log('✅ User in test flow (simulate), unlocking content for:', testType);
+            // Check current DOM state
+            const resultElements = {
+                age: document.getElementById('ageResult'),
+                character: document.getElementById('characterResult'),
+                toxic: document.getElementById('toxicResult'),
+                future: document.getElementById('futureResult'),
+                internet: document.getElementById('internetResult'),
+                redflags: document.getElementById('redflagsResult')
+            };
+            console.log('📊 Result element exists (simulate):', !!resultElements[testType]);
+            console.log('👁️ Result element visible (simulate):', resultElements[testType]?.style.display !== 'none');
+            
+            // Force unlock without checking if at results since payment was from results page
+            setTimeout(() => {
+                console.log('🔓 Executing unlock (simulate) for:', testType);
+                
+                // Make sure result element is visible first
+                const resultElement = resultElements[testType];
+                if (resultElement && resultElement.style.display === 'none') {
+                    console.log('👁️ Making result element visible (simulate)');
+                    resultElement.style.display = 'block';
+                }
+                
+                // Hide questions section
+                const questionElements = {
+                    age: document.getElementById('imageUpload'),
+                    character: document.getElementById('characterQuestions'),
+                    toxic: document.getElementById('toxicQuestions'),
+                    future: document.getElementById('futureQuestions'),
+                    internet: document.getElementById('internetQuestions'),
+                    redflags: document.querySelector('.mode-selection')
+                };
+                if (questionElements[testType]) {
+                    console.log('🙈 Hiding questions section (simulate)');
+                    questionElements[testType].style.display = 'none';
+                }
+                
+                switch(testType) {
+                    case 'age':
+                        this.unlockAgeTestPremiumContent();
+                        break;
+                    case 'character':
+                        this.showPremiumCharacterContent();
+                        break;
+                    case 'toxic':
+                        this.showPremiumToxicContent();
+                        break;
+                    case 'future':
+                        this.showPremiumFutureContent();
+                        break;
+                    case 'internet':
+                        this.showPremiumInternetContent();
+                        break;
+                    case 'redflags':
+                        if (this.redFlagAnswers && this.redFlagAnswers.length > 0) {
+                            const redFlags = this.redFlagAnswers.filter(a => a === 'red').length;
+                            const yellowFlags = this.redFlagAnswers.filter(a => a === 'yellow').length;
+                            const greenFlags = this.redFlagAnswers.filter(a => a === 'green').length;
+                            this.showPremiumRedFlagContent(redFlags, yellowFlags, greenFlags);
+                        }
+                        break;
+                }
+                console.log('✨ Unlock completed (simulate)');
+            }, 100);
+        } else {
+            console.log('❌ Not in test flow or test mismatch (simulate)');
+            // Show success and close modal
+            this.closeModal();
+            const successDiv = document.createElement('div');
+            successDiv.innerHTML = testType ? `🎉 Premium ${testType} test unlocked!` : '🎆 All-Access Pass activated!';
+            successDiv.style.cssText = 'position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 1rem 2rem; border-radius: 10px; z-index: 10000; font-weight: 600; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);';
+            document.body.appendChild(successDiv);
+            setTimeout(() => successDiv.remove(), 5000);
+        }
     }
 }
 
