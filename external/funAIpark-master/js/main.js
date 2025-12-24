@@ -295,14 +295,14 @@ class FunAIApp {
                 <div class="upload-area" id="imageUpload">
                     <i class="fas fa-camera"></i>
                     <h3>Upload Your Photo</h3>
+                    <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
+                        Choose Photo
+                    </button>
                     <p>We'll analyze your face using Indian beauty standards</p>
                     <div class="ai-progress-notice">
                         <small>🤖 AI implementation under progress for more interesting results</small>
                     </div>
                     <input type="file" id="imageInput" name="imageFile" accept="image/*" style="display: none;">
-                    <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
-                        Choose Photo
-                    </button>
                 </div>
                 
                 <div class="filter-options" style="display: none;" id="filterOptions">
@@ -2989,6 +2989,11 @@ class FunAIApp {
             handler: (response) => {
                 // Payment successful
                 console.log('Payment successful:', response);
+                
+                // Close payment modal and set premium access
+                this.closeModal();
+                this.setFullAccess();
+                this.updateUIForPremiumUser();
                 
                 if (testType) {
                     // Individual test unlock
