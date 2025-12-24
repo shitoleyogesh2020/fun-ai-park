@@ -304,7 +304,6 @@ class FunAIApp {
             </div>
             <div class="test-content ${config.theme}">
                 ${config.content}
-                <div class="progress-hint">Tap to continue →</div>
             </div>
         `;
     }
