@@ -200,11 +200,6 @@ class RedFlagTest {
                 <div class="test-icon">🚩</div>
                 <h2>${testTitle}</h2>
                 <p>Question ${this.currentQuestion + 1} of ${this.questions.length}</p>
-                <div class="test-progress">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${progress}%"></div>
-                    </div>
-                </div>
             </div>
             
             <div class="test-content">

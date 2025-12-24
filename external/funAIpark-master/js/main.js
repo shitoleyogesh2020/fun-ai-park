@@ -789,11 +789,8 @@ class FunAIApp {
         
         const content = `
             <div class="question-card social-style">
-                <div class="test-progress">
+                <div class="test-progress-text">
                     <span>Question ${this.currentRedFlagQ + 1} of ${questions.length}</span>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${progress}%"></div>
-                    </div>
                 </div>
                 <h3>💭 ${q.q}</h3>
                 <div class="social-options">
@@ -1035,8 +1032,7 @@ class FunAIApp {
                     <div class="character-options">
                         ${q.options.map(option => `
                             <div class="char-option" data-type="${option.type}">
-                                <div class="char-emoji">${option.emoji}</div>
-                                <span>${option.text}</span>
+                                <span>${option.emoji} ${option.text}</span>
                             </div>
                         `).join('')}
                     </div>
@@ -1152,12 +1148,11 @@ class FunAIApp {
             container.innerHTML = `
                 <div class="toxic-question-card">
                     <div class="question-progress">
-                        <span>Question ${currentQ + 1} of ${questions.length}</span>
+                        <span>Question ${currentQ + 1} of ${questions.length} ${q.emoji}</span>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: ${((currentQ + 1) / questions.length) * 100}%"></div>
                         </div>
                     </div>
-                    <div class="question-emoji">${q.emoji}</div>
                     <h4>${q.q}</h4>
                     <div class="toxic-scale">
                         <button class="scale-btn angel" data-value="1">
@@ -1220,7 +1215,6 @@ class FunAIApp {
         const questions = [
             {
                 q: "What's your current career focus? 💼",
-                emoji: "💼",
                 options: [
                     { text: "Learning new skills daily", value: 5, icon: "📚" },
                     { text: "Building professional network", value: 4, icon: "🤝" },
@@ -1230,7 +1224,6 @@ class FunAIApp {
             },
             {
                 q: "How do you handle money? 💰",
-                emoji: "💰",
                 options: [
                     { text: "Save 30%+ of income", value: 5, icon: "💎" },
                     { text: "Save when I remember", value: 3, icon: "🤷" },
@@ -1240,7 +1233,6 @@ class FunAIApp {
             },
             {
                 q: "Your health routine? 🏃",
-                emoji: "🏃",
                 options: [
                     { text: "Gym 5+ times a week", value: 5, icon: "💪" },
                     { text: "Occasional walks/yoga", value: 3, icon: "🚶" },
@@ -1250,7 +1242,6 @@ class FunAIApp {
             },
             {
                 q: "Your learning mindset? 🧠",
-                emoji: "🧠",
                 options: [
                     { text: "Always reading/courses", value: 5, icon: "📖" },
                     { text: "Learn when needed for work", value: 3, icon: "💻" },
@@ -1260,7 +1251,6 @@ class FunAIApp {
             },
             {
                 q: "Social life balance? 👥",
-                emoji: "👥",
                 options: [
                     { text: "Quality time with close friends", value: 4, icon: "❤️" },
                     { text: "Party every weekend", value: 2, icon: "🎉" },
@@ -1270,7 +1260,6 @@ class FunAIApp {
             },
             {
                 q: "How do you handle stress? 😰",
-                emoji: "😰",
                 options: [
                     { text: "Meditation and deep breathing", value: 5, icon: "🧘" },
                     { text: "Talk to friends/family", value: 4, icon: "💬" },
@@ -1280,7 +1269,6 @@ class FunAIApp {
             },
             {
                 q: "Your relationship with technology? 📱",
-                emoji: "📱",
                 options: [
                     { text: "Use it to boost productivity", value: 5, icon: "⚡" },
                     { text: "Social media addict", value: 2, icon: "📸" },
@@ -1290,7 +1278,6 @@ class FunAIApp {
             },
             {
                 q: "Your approach to challenges? 🎯",
-                emoji: "🎯",
                 options: [
                     { text: "Bring it on! I love challenges", value: 5, icon: "🔥" },
                     { text: "Take them step by step", value: 4, icon: "🪜" },
@@ -1300,7 +1287,6 @@ class FunAIApp {
             },
             {
                 q: "Your morning routine? 🌅",
-                emoji: "🌅",
                 options: [
                     { text: "5 AM wake up, workout, plan day", value: 5, icon: "⏰" },
                     { text: "Coffee first, then figure it out", value: 3, icon: "☕" },
@@ -1310,7 +1296,6 @@ class FunAIApp {
             },
             {
                 q: "Your biggest motivation? 🚀",
-                emoji: "🚀",
                 options: [
                     { text: "Making a positive impact", value: 5, icon: "🌟" },
                     { text: "Financial freedom", value: 4, icon: "💰" },
@@ -1343,7 +1328,6 @@ class FunAIApp {
                             <div class="progress-fill" style="width: ${((currentQ + 1) / questions.length) * 100}%"></div>
                         </div>
                     </div>
-                    <div class="question-emoji">${q.emoji}</div>
                     <h4>${q.q}</h4>
                     <div class="future-options">
                         ${q.options.map(option => `
@@ -1444,7 +1428,6 @@ class FunAIApp {
         const questions = [
             {
                 q: "Your WhatsApp status game? 📱",
-                emoji: "📱",
                 options: [
                     { text: "Always updated with quotes/pics", value: 4, icon: "✨" },
                     { text: "Rarely change it", value: 2, icon: "😐" },
@@ -1454,7 +1437,6 @@ class FunAIApp {
             },
             {
                 q: "Instagram posting style? 📸",
-                emoji: "📸",
                 options: [
                     { text: "Curated feed, perfect aesthetic", value: 5, icon: "🎨" },
                     { text: "Random moments, authentic vibes", value: 4, icon: "😊" },
@@ -1464,7 +1446,6 @@ class FunAIApp {
             },
             {
                 q: "LinkedIn presence? 💼",
-                emoji: "💼",
                 options: [
                     { text: "Regular posts about industry", value: 5, icon: "📈" },
                     { text: "Share others' content sometimes", value: 3, icon: "🔄" },
@@ -1474,7 +1455,6 @@ class FunAIApp {
             },
             {
                 q: "Twitter/X behavior? 🐦",
-                emoji: "🐦",
                 options: [
                     { text: "Tweet thoughts and engage daily", value: 5, icon: "💬" },
                     { text: "Retweet and comment sometimes", value: 3, icon: "🔁" },
@@ -1484,7 +1464,6 @@ class FunAIApp {
             },
             {
                 q: "YouTube activity? 📺",
-                emoji: "📺",
                 options: [
                     { text: "Create content regularly", value: 5, icon: "🎥" },
                     { text: "Comment and engage actively", value: 4, icon: "💬" },
@@ -1494,7 +1473,6 @@ class FunAIApp {
             },
             {
                 q: "Online shopping reviews? 🛒",
-                emoji: "🛒",
                 options: [
                     { text: "Always write detailed reviews", value: 5, icon: "⭐" },
                     { text: "Rate but rarely write", value: 3, icon: "📊" },
@@ -1527,7 +1505,6 @@ class FunAIApp {
                             <div class="progress-fill" style="width: ${((currentQ + 1) / questions.length) * 100}%"></div>
                         </div>
                     </div>
-                    <div class="question-emoji">${q.emoji}</div>
                     <h4>${q.q}</h4>
                     <div class="internet-options">
                         ${q.options.map(option => `
