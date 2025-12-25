@@ -2003,9 +2003,46 @@
     .stat-value {
         text-align: center;
     }
+    
+    /* Fix mobile padding issues */
+    .game-modal .modal-content {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        border-radius: 0;
+        padding-bottom: 80px; /* Add bottom padding for mobile */
+    }
+    
+    .game-content {
+        border-radius: 0;
+        padding: 15px 15px 80px 15px; /* Add bottom padding */
+        min-height: calc(100vh - 200px); /* Ensure content fits */
+    }
+    
+    /* Ensure cards don't get cut off */
+    .scenario-card,
+    .scenario-card-3d,
+    .prophecy-card-3d,
+    .platform-question-3d,
+    .quest-card,
+    .case-report,
+    .character-revelation,
+    .premium-detective-report,
+    .premium-character-analysis,
+    .premium-age-analysis,
+    .premium-toxic-analysis,
+    .premium-future-analysis,
+    .premium-internet-analysis {
+        margin-bottom: 60px; /* Extra margin for mobile */
+    }
+    
+    /* Fix result page spacing */
+    .age-result-display,
+    .case-report,
+    .character-revelation {
+        padding-bottom: 60px;
+    }
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
     .playground-controls {
         display: none;
     }
@@ -2033,20 +2070,8 @@
         justify-content: space-around;
     }
     
-    .game-modal .modal-content {
-        width: 100vw;
-        height: 100vh;
-        margin: 0;
-        border-radius: 0;
-    }
-    
     .game-ui {
         border-radius: 0;
-    }
-    
-    .game-content {
-        border-radius: 0;
-        padding: 15px;
     }
     
     .filter-game-grid,
@@ -2075,6 +2100,7 @@
     .game-actions {
         flex-direction: column;
         gap: 10px;
+        margin-bottom: 40px; /* Extra space at bottom */
     }
     
     .play-again-btn,
