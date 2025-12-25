@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Button Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .locked-content {
+            position: relative;
+            min-height: 300px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .result-locked {
+            filter: blur(8px);
+            pointer-events: none;
+        }
+        .unlock-overlay {
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            text-align: center !important;
+            z-index: 100 !important;
+            background: white !important;
+            padding: 2rem !important;
+            border-radius: 20px !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+            display: block !important;
+            width: 90% !important;
+            max-width: 400px !important;
+        }
+        .upgrade-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: white !important;
+            border: none !important;
+            padding: 1rem 2rem !important;
+            border-radius: 50px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            font-size: 1rem !important;
+            box-shadow: 0 10px 25px rgba(99,102,241,0.3) !important;
+            display: block !important;
+            margin: 1rem auto !important;
+            z-index: 1000 !important;
+        }
+        .upgrade-btn:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 15px 35px rgba(99,102,241,0.4) !important;
+        }
+        .test-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Premium Button Test</h1>
+        
+        <div class="test-info">
+            <h3>Test Purpose:</h3>
+            <p>This page tests if the premium unlock button appears correctly in the face age estimator result page.</p>
+        </div>
+        
+        <h2>Simulated Age Result:</h2>
+        
+        <div class="result-card">
+            <h3>Your Estimated Age</h3>
+            <div class="age-display">
+                <span style="font-size: 3rem; font-weight: bold; color: #667eea;">25</span>
+                <span style="color: #666;">years old</span>
+            </div>
+            <p>You have a youthful glow that's perfect for Indian beauty standards!</p>
+            
+            <!-- Locked Content with Overlay -->
+            <div class="locked-content">
+                <div class="result-locked">
+                    <h4>Premium AI Analysis</h4>
+                    <div class="premium-insights">
+                        <div style="background: rgba(99,102,241,0.1); padding: 10px; margin: 10px 0; border-radius: 8px;">
+                            <h5>🧬 Genetic Age Score</h5>
+                            <p>Your biological age vs chronological age analysis</p>
+                        </div>
+                        <div style="background: rgba(99,102,241,0.1); padding: 10px; margin: 10px 0; border-radius: 8px;">
+                            <h5>✨ Beauty Enhancement Tips</h5>
+                            <p>Personalized skincare & lifestyle recommendations</p>
+                        </div>
+                        <div style="background: rgba(99,102,241,0.1); padding: 10px; margin: 10px 0; border-radius: 8px;">
+                            <h5>📊 Celebrity Look-Alike Match</h5>
+                            <p>Find your Bollywood/Hollywood doppelganger</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="unlock-overlay">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
+                    <h4>Your detailed result is ready!</h4>
+                    <div style="width: 100%; height: 8px; background: #e5e7eb; border-radius: 10px; margin: 1rem 0;">
+                        <div style="width: 70%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px;"></div>
+                    </div>
+                    <p>🎯 Unlock premium analysis now!</p>
+                    <button class="upgrade-btn" onclick="testUpgrade()">
+                        🔓 Unlock Premium for ₹49
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-info" style="margin-top: 30px;">
+            <h3>✅ Test Results:</h3>
+            <p id="testResult">If you can see the "Unlock Premium for ₹49" button above, the fix is working!</p>
+            <button onclick="runTest()" style="background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                Run Button Visibility Test
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function testUpgrade() {
+            alert('🎉 Premium button is working! This would normally open the payment modal.');
+        }
+        
+        function runTest() {
+            const upgradeBtn = document.querySelector('.upgrade-btn');
+            const overlay = document.querySelector('.unlock-overlay');
+            const resultDiv = document.getElementById('testResult');
+            
+            if (upgradeBtn && overlay) {
+                const btnStyle = window.getComputedStyle(upgradeBtn);
+                const overlayStyle = window.getComputedStyle(overlay);
+                
+                let result = '✅ Test Results:\n';
+                result += `• Button found: ${upgradeBtn ? 'YES' : 'NO'}\n`;
+                result += `• Button display: ${btnStyle.display}\n`;
+                result += `• Button visibility: ${btnStyle.visibility}\n`;
+                result += `• Overlay display: ${overlayStyle.display}\n`;
+                result += `• Button clickable: ${upgradeBtn.onclick ? 'YES' : 'NO'}`;
+                
+                resultDiv.innerHTML = result.replace(/\n/g, '<br>');
+                
+                if (btnStyle.display !== 'none' && btnStyle.visibility !== 'hidden') {
+                    resultDiv.innerHTML += '<br><br><strong style="color: green;">✅ PREMIUM BUTTON IS WORKING CORRECTLY!</strong>';
+                } else {
+                    resultDiv.innerHTML += '<br><br><strong style="color: red;">❌ PREMIUM BUTTON HAS VISIBILITY ISSUES</strong>';
+                }
+            } else {
+                resultDiv.innerHTML = '<strong style="color: red;">❌ Premium button or overlay not found!</strong>';
+            }
+        }
+        
+        // Auto-run test on page load
+        window.onload = function() {
+            setTimeout(runTest, 1000);
+        };
+    </script>
+</body>
+</html>

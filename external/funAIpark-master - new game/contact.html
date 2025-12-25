@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - FunAI Park</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-rocket"></i>
+                    <span>FunAI Park</span>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="privacy.html" class="nav-link">Privacy</a>
+                <a href="terms.html" class="nav-link">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="contact-page">
+        <div class="container">
+            <div class="section-header">
+                <h1>Contact Us</h1>
+                <p>Get in touch for support, partnerships, or Razorpay activation</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Get in Touch</h2>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>General Support</h3>
+                            <p>funaipark@gmail.com</p>
+                            <small>Response within 24 hours</small>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Payment & Razorpay Issues</h3>
+                            <p>funaipark@gmail.com</p>
+                            <small>For payment activation and billing</small>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Business Partnerships</h3>
+                            <p>funaipark@gmail.com</p>
+                            <small>Collaborations and integrations</small>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Privacy & Data</h3>
+                            <p>funaipark@gmail.com</p>
+                            <small>Data deletion and privacy concerns</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <h2>Send us a Message</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select a topic</option>
+                                <option value="support">General Support</option>
+                                <option value="payment">Payment Issues</option>
+                                <option value="razorpay">Razorpay Activation</option>
+                                <option value="privacy">Privacy Concerns</option>
+                                <option value="business">Business Inquiry</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Describe your issue or inquiry..."></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>How do I activate Razorpay payments?</h3>
+                        <p>Contact us at funaipark@gmail.com with your business details. We'll help you set up secure payment processing.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Is my photo data safe?</h3>
+                        <p>Yes! Photos never leave your device. Age estimates are generated locally for entertainment purposes only.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Can I get a refund?</h3>
+                        <p>Digital services are non-refundable. However, contact us if you experience technical issues.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>How accurate are the tests?</h3>
+                        <p>Our tests are purely for entertainment. Age estimates are simulated and personality results are based on simple fun algorithms designed to provide results with more accuracy for entertainment value.</p>
+                        <p class="ai-notice">🤖 AI implementation under progress for more interesting results</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <i class="fas fa-rocket"></i>
+                        <span>FunAI Park</span>
+                    </div>
+                    <p>Discover your digital self with AI-powered tests.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <a href="privacy.html">Privacy Policy</a>
+                        <a href="terms.html">Terms of Service</a>
+                        <a href="contact.html">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FunAI Park. Made with ❤️ for India</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We\'ll get back to you within 24 hours.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

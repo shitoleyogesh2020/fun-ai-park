@@ -1,0 +1,340 @@
+/* Enhanced Red Flag Test Styles */
+
+/* Age Selection */
+.age-selection {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.age-selection label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.age-select {
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    font-size: 1em;
+    background: white;
+    min-width: 200px;
+    transition: all 0.3s ease;
+}
+
+.age-select:focus {
+    border-color: #667eea;
+    outline: none;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+/* Enhanced Results */
+.enhanced-results {
+    padding: 20px 0;
+}
+
+/* Personality Archetype Card */
+.archetype-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    padding: 30px;
+    color: white;
+    text-align: center;
+    margin: 25px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.archetype-card h3 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: #ffd700;
+}
+
+.archetype-desc {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.archetype-traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.trait-tag {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    backdrop-filter: blur(10px);
+}
+
+.success-rate {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.rate-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #ffd700;
+    display: block;
+}
+
+.rate-label {
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+/* Age Insights */
+.age-insights {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 25px 0;
+    color: white;
+}
+
+.age-insights h4 {
+    margin-bottom: 20px;
+    color: #ffd700;
+}
+
+.insight-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.insight-item strong {
+    color: #ffd700;
+}
+
+/* Compatibility Section */
+.compatibility-section {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 25px 0;
+    text-align: center;
+}
+
+.compatibility-score {
+    margin: 20px 0;
+}
+
+.score-number {
+    font-size: 3em;
+    font-weight: bold;
+    color: #fff;
+    display: block;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.score-label {
+    font-size: 1.2em;
+    color: #fff;
+    opacity: 0.9;
+}
+
+.compatibility-reason {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    backdrop-filter: blur(10px);
+    color: #fff;
+}
+
+/* Trend Analysis */
+.trend-analysis {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 25px 0;
+}
+
+.trend-analysis h4 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.success-story {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.success-story h5 {
+    color: #ff6b6b;
+    margin-bottom: 10px;
+}
+
+/* Journey Tracking */
+.journey-tracking {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 25px 0;
+    text-align: center;
+}
+
+.journey-tracking h4 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.journey-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.journey-stats span {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    color: #333;
+}
+
+/* Action Plan */
+.action-plan {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 25px 0;
+    color: white;
+}
+
+.action-plan h4 {
+    color: #ffd700;
+    margin-bottom: 15px;
+}
+
+.plan-priority {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.plan-priority.high {
+    background: #ff6b6b;
+    color: white;
+}
+
+.plan-priority.moderate {
+    background: #ffa726;
+    color: white;
+}
+
+.plan-priority.low {
+    background: #66bb6a;
+    color: white;
+}
+
+.immediate-actions {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.immediate-actions h6 {
+    color: #ffd700;
+    margin-bottom: 15px;
+}
+
+.immediate-actions ul {
+    list-style: none;
+    padding: 0;
+}
+
+.immediate-actions li {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 4px solid #ffd700;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .archetype-traits {
+        justify-content: center;
+    }
+    
+    .trait-tag {
+        font-size: 0.8em;
+        padding: 6px 12px;
+    }
+    
+    .journey-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .score-number {
+        font-size: 2.5em;
+    }
+    
+    .archetype-card h3 {
+        font-size: 1.5em;
+    }
+}
+
+/* Animation Effects */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.enhanced-results > div {
+    animation: slideInUp 0.6s ease forwards;
+}
+
+.enhanced-results > div:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.enhanced-results > div:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.enhanced-results > div:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+/* Hover Effects */
+.archetype-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.trait-tag:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}

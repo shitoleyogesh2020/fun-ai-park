@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FunAI Park - Fun Personality Tests & Entertainment</title>
+    <meta name="description" content="Face age estimator, personality tests, red flags & future self — fun entertainment tests made for India. Try free tests!">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/red-flag-test.css">
+    <link rel="stylesheet" href="css/red-flag-3d.css">
+    <link rel="stylesheet" href="css/enhanced-red-flag-styles.css">
+    <link rel="stylesheet" href="css/playground-styles.css">
+    
+    <!-- Three.js for 3D effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- TensorFlow.js for face detection -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
+    
+    <!-- Razorpay -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-rocket"></i>
+                <span>FunAI Park</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Tests</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <div id="premiumUserBadge" class="premium-nav-badge" style="display: none;" onclick="funaiApp.showPremiumInfo()">
+                    <i class="fas fa-crown"></i>
+                    <span>PREMIUM</span>
+                </div>
+                <button class="nav-cta">Get Started</button>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-fire"></i>
+                    <span>Trending in India</span>
+                </div>
+                <h1 class="hero-title">
+                    Discover Your <span class="gradient-text">Digital Self</span>
+                    <br>with Fun Personality Tests Everyone Loves ✨
+                </h1>
+                <p class="hero-subtitle">
+                    Fun viral-style tests made for India 🇮🇳 by an Indian developer with 💖<br>
+                    Entertainment personality tests & simulated face age
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label">Tests Taken</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">4.9★</span>
+                        <span class="stat-label">User Rating</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">1M+</span>
+                        <span class="stat-label">Shares</span>
+                    </div>
+                </div>
+                <div class="hero-cta">
+                    <button class="btn-primary playground-cta">
+                        <i class="fas fa-rocket"></i>
+                        🎮 Enter Playground - Discover Your Real Age in 30 Seconds
+                    </button>
+                </div>
+                <div class="quick-tests-preview playground-preview">
+                    <p class="preview-text">🎮 Interactive Game Tests Available:</p>
+                    <div class="test-icons game-icons">
+                        <div class="test-icon-item game-icon-item" onclick="openTest('redflags')">
+                            <span class="test-emoji">🚩</span>
+                            <span class="test-name">Red Flag Detective</span>
+                            <div class="game-badge">🎯 Game</div>
+                        </div>
+                        <div class="test-icon-item game-icon-item" onclick="openTest('character')">
+                            <span class="test-emoji">⭐</span>
+                            <span class="test-name">Character Quest</span>
+                            <div class="game-badge">🎭 RPG</div>
+                        </div>
+                        <div class="test-icon-item game-icon-item" onclick="openTest('toxic')">
+                            <span class="test-emoji">💀</span>
+                            <span class="test-name">Toxicity Challenge</span>
+                            <div class="game-badge">⚡ Action</div>
+                        </div>
+                        <div class="test-icon-item game-icon-item" onclick="openTest('future')">
+                            <span class="test-emoji">🔮</span>
+                            <span class="test-name">Future Vision</span>
+                            <div class="game-badge">🔮 Prediction</div>
+                        </div>
+                        <div class="test-icon-item game-icon-item" onclick="openTest('internet')">
+                            <span class="test-emoji">📱</span>
+                            <span class="test-name">Digital DNA Scanner</span>
+                            <div class="game-badge">🧬 Analysis</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="trust-signals">
+                    <p>🔒 No login • No data saved • Photos stay on your device</p>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-card card-1">
+                    <div class="card-icon">🎭</div>
+                    <div class="card-text">Personality Test</div>
+                </div>
+                <div class="floating-card card-2">
+                    <div class="card-icon">👤</div>
+                    <div class="card-text">Age Estimator</div>
+                </div>
+                <div class="floating-card card-3">
+                    <div class="card-icon">🚩</div>
+                    <div class="card-text">Red Flag Test</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header playground-header">
+                <h2>🎮 Choose Your Game Adventure</h2>
+                <p>6 interactive personality games with achievements, scoring, and premium unlocks</p>
+                <div class="playground-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">🎯</span>
+                        <span class="stat-value">50K+</span>
+                        <span class="stat-label">Games Played</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🏆</span>
+                        <span class="stat-value">25K+</span>
+                        <span class="stat-label">Achievements</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">⭐</span>
+                        <span class="stat-value">4.9</span>
+                        <span class="stat-label">Rating</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="features-grid">
+                <!-- Face Age Estimator -->
+                <div class="feature-card age-card" data-feature="age">
+                    <div class="feature-badge trending">🔥 Trending</div>
+                    <div class="feature-icon age-icon">
+                        <i class="fas fa-user-clock"></i>
+                    </div>
+                    <h3>Face Age Estimator</h3>
+                    <p>Simulated age estimation for fun! See what age you might look like.</p>
+                    <div class="feature-time">⏱️ Takes 30 seconds</div>
+                    <div class="feature-tags">
+                        <span class="tag">Fun Entertainment</span>
+                        <span class="tag">Instant Results</span>
+                    </div>
+                    <div class="feature-pricing">
+                        <span class="price-free">🎁 Try Free</span>
+                        <span class="price-premium">🔓 Unlock full result for ₹49</span>
+                    </div>
+                    <button class="feature-btn">Try Now</button>
+                </div>
+
+                <!-- Red Flag Test -->
+                <div class="feature-card redflags-card" data-feature="redflags">
+                    <div class="feature-badge spicy">🌶️ Spicy</div>
+                    <div class="feature-icon redflags-icon">
+                        <i class="fas fa-flag"></i>
+                    </div>
+                    <h3>Red Flag / Green Flag Test</h3>
+                    <p>Office, dating, and friendship red flags - Gen-Z's favorite personality test!</p>
+                    <div class="feature-time">⏱️ Takes 2 minutes</div>
+                    <div class="feature-tags">
+                        <span class="tag">Gen-Z Favorite</span>
+                        <span class="tag">Shareable</span>
+                    </div>
+                    <div class="feature-pricing">
+                        <span class="price-free">🎁 Try Free</span>
+                        <span class="price-premium">🔓 Unlock breakdown for ₹99</span>
+                    </div>
+                    <button class="feature-btn" onclick="openTest('redflags')">Take Test</button>
+                </div>
+
+                <!-- Main Character Energy -->
+                <div class="feature-card character-card" data-feature="character">
+                    <div class="feature-badge genz">🧠 Gen-Z Fav</div>
+                    <div class="feature-icon character-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Main Character Energy</h3>
+                    <p>Bollywood & web-series personalities. What's your aesthetic vibe?</p>
+                    <div class="feature-time">⏱️ Takes 1 minute</div>
+                    <div class="feature-tags">
+                        <span class="tag">Bollywood Style</span>
+                        <span class="tag">IG Ready</span>
+                    </div>
+                    <div class="feature-pricing">
+                        <span class="price-free">🎁 Try Free</span>
+                        <span class="price-premium">🔓 Unlock full package for ₹49</span>
+                    </div>
+                    <button class="feature-btn">Discover</button>
+                </div>
+
+                <!-- Toxicity Scale -->
+                <div class="feature-card toxic-card" data-feature="toxic">
+                    <div class="feature-badge spicy">🌶️ Spicy</div>
+                    <div class="feature-icon toxic-icon">
+                        <i class="fas fa-skull"></i>
+                    </div>
+                    <h3>How Toxic Are You?</h3>
+                    <p>Dark humor meets self-roast. Indians love roasting - now roast yourself!</p>
+                    <div class="feature-time">⏱️ Takes 2 minutes</div>
+                    <div class="feature-tags">
+                        <span class="tag">Dark Humor</span>
+                        <span class="tag">Self-Roast</span>
+                    </div>
+                    <div class="feature-pricing">
+                        <span class="price-free">🎁 Try Free</span>
+                        <span class="price-premium">🔓 Unlock breakdown for ₹79</span>
+                    </div>
+                    <button class="feature-btn">Get Roasted</button>
+                </div>
+
+                <!-- Future Self 2026 -->
+                <div class="feature-card future-card" data-feature="future">
+                    <div class="feature-badge festive">🎄 Festive</div>
+                    <div class="feature-icon future-icon">
+                        <i class="fas fa-crystal-ball"></i>
+                    </div>
+                    <h3>Who Are You Becoming in 2026?</h3>
+                    <p>Career, money, lifestyle predictions based on your current habits.</p>
+                    <div class="feature-time">⏱️ Takes 3 minutes</div>
+                    <div class="feature-tags">
+                        <span class="tag">Future Prediction</span>
+                        <span class="tag">Habit-Based</span>
+                    </div>
+                    <div class="feature-pricing">
+                        <span class="price-free">🎁 Try Free</span>
+                        <span class="price-premium">🔓 Unlock festive access for ₹99</span>
+                    </div>
+                    <button class="feature-btn">See Future</button>
+                </div>
+
+                <!-- Internet Personality -->
+                <div class="feature-card internet-card" data-feature="internet">
+                    <div class="feature-badge trending">🔥 Trending</div>
+                    <div class="feature-icon internet-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3>Internet Personality Type</h3>
+                    <p>WhatsApp, Instagram, LinkedIn - what's your digital personality?</p>
+                    <div class="feature-time">⏱️ Takes 90 seconds</div>
+                    <div class="feature-tags">
+                        <span class="tag">Meme Style</span>
+                        <span class="tag">Social Media</span>
+                    </div>
+                    <div class="feature-pricing">
+                        <span class="price-free">🎁 Try Free</span>
+                        <span class="price-premium">🔓 Unlock share card for ₹49</span>
+                    </div>
+                    <button class="feature-btn">Find Out</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Test Modal -->
+    <div id="testModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalBody" class="scrollable-content">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2>Simple Pricing</h2>
+                <p>Try for free, upgrade for the full experience</p>
+            </div>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Free Explorer</h3>
+                        <div class="price">₹0</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Basic test results</li>
+                        <li><i class="fas fa-check"></i> Age preview</li>
+                        <li><i class="fas fa-check"></i> Personality scores</li>
+                        <li><i class="fas fa-times"></i> Detailed breakdowns</li>
+                        <li><i class="fas fa-times"></i> Shareable cards</li>
+                    </ul>
+                    <button class="pricing-btn">Start Free</button>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Premium Unlock</h3>
+                        <div class="price">₹49-99</div>
+                        <div class="price-note">per test</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Everything in Free</li>
+                        <li><i class="fas fa-check"></i> Detailed analysis</li>
+                        <li><i class="fas fa-check"></i> HD shareable cards</li>
+                        <li><i class="fas fa-check"></i> Future predictions</li>
+                        <li><i class="fas fa-check"></i> Custom filters</li>
+                    </ul>
+                    <button class="pricing-btn">Upgrade Now</button>
+                </div>
+                
+                <div class="pricing-card premium">
+                    <div class="pricing-badge">Best Value</div>
+                    <div class="pricing-header">
+                        <h3>All-Access Pass</h3>
+                        <div class="price">₹349</div>
+                        <div class="price-note">all tests included</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> All 6 premium tests</li>
+                        <li><i class="fas fa-check"></i> Complete analysis reports</li>
+                        <li><i class="fas fa-check"></i> All shareable cards</li>
+                        <li><i class="fas fa-check"></i> Priority support</li>
+                        <li><i class="fas fa-check"></i> Future test updates</li>
+                    </ul>
+                    <button class="pricing-btn">Get All Access</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <i class="fas fa-rocket"></i>
+                        <span>FunAI Park</span>
+                    </div>
+                    <p>Discover your digital self with entertainment personality tests and simulated face age estimation.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Tests</h4>
+                        <a href="#age">Age Estimator</a>
+                        <a href="#redflags">Red Flag Test</a>
+                        <a href="#character">Main Character</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>More Tests</h4>
+                        <a href="#toxic">Toxicity Scale</a>
+                        <a href="#future">Future Self</a>
+                        <a href="#internet">Internet Type</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <a href="contact.html">Contact Us</a>
+                        <a href="privacy.html">Privacy Policy</a>
+                        <a href="terms.html">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FunAI Park. Made with ❤️ for India</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/red-flag-new.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/interactive-games.js"></script>
+    <script src="js/playground-main.js"></script>
+    <script src="js/three-bg.js"></script>
+</body>
+</html>
